@@ -1,4 +1,4 @@
-package com.kataria.springboot.rest.practice.Restful;
+package com.kataria.springboot.rest.practice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
