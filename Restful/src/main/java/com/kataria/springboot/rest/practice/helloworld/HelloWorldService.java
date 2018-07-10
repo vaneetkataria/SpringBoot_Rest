@@ -27,7 +27,8 @@ public class HelloWorldService {
 	}
 
 	// Content application/xml and application/json can both be demanded by sending
-	// in Accept Header.
+	// in Accept Header. application/octet-stream or application/pdf will not be
+	// served . No content will be served as response is not a byte array.
 	@GetMapping(path = "/Hello-world-Bean")
 	public HelloWorld helloWorldBean() {
 		return new HelloWorld("Hello World-Bean");
