@@ -30,12 +30,16 @@ public class UserResourceManager {
 			userList.setSuccess().setHttpStatus(HttpStatus.OK);
 			return userList;
 		} catch (Exception e) {
-			throw new UserResourceException(e.getMessage(), e, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.name());
+			throw new UserResourceException(e.getMessage(), e, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	public User getUser(Integer userId) {
-		Assert.isTrue(useraMap.containsKey(userId), "UserId does not exist.");
-		return useraMap.get(userId);
+	public User getUser(Integer userId) throws UserResourceException {
+		try {
+			Assert.isTrue(useraMap.containsKey(userId), "USER_DOES_NOT_EXIST");
+			return useraMap.get(userId);
+		} catch (Exception e) {
+			throw new UserResourceException(e.getMessage(), e, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

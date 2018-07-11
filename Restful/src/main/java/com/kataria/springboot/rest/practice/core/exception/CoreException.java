@@ -1,5 +1,7 @@
 package com.kataria.springboot.rest.practice.core.exception;
 
+import org.springframework.http.HttpStatus;
+
 public class CoreException extends Exception {
 
 	/**
@@ -7,7 +9,7 @@ public class CoreException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String responseCode;
-	private String httpCode;
+	private HttpStatus httpStatus;
 
 	public String getResponseCode() {
 		return responseCode;
@@ -17,22 +19,22 @@ public class CoreException extends Exception {
 		this.responseCode = responseCode;
 	}
 
-	public String getHttpCode() {
-		return httpCode;
+	public HttpStatus getHttpStatus() {
+		return httpStatus;
 	}
 
-	public void setHttpCode(String httpCode) {
-		this.httpCode = httpCode;
+	public void setHttpStatus(HttpStatus httpStatus) {
+		this.httpStatus = httpStatus;
 	}
 
 	public CoreException() {
 		super();
 	}
 
-	public CoreException(String message, Throwable cause, String responseCode, String httpCode) {
+	public CoreException(String message, Throwable cause, String responseCode, HttpStatus httpStatus) {
 		super(message, cause);
 		this.responseCode = responseCode;
-		this.httpCode = httpCode;
+		this.httpStatus = httpStatus;
 	}
 
 }

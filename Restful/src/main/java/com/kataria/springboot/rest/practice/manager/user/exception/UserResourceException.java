@@ -1,5 +1,7 @@
 package com.kataria.springboot.rest.practice.manager.user.exception;
 
+import org.springframework.http.HttpStatus;
+
 import com.kataria.springboot.rest.practice.core.exception.CoreException;
 
 public class UserResourceException extends CoreException {
@@ -10,7 +12,7 @@ public class UserResourceException extends CoreException {
 		super();
 	}
 
-	public UserResourceException(String message, Throwable cause, String responseCode, String httpCode) {
+	public UserResourceException(String message, Throwable cause, String responseCode, HttpStatus httpCode) {
 		super(message, cause, responseCode, httpCode);
 	}
 

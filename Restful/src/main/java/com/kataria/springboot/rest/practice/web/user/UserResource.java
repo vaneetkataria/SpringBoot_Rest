@@ -26,8 +26,12 @@ public class UserResource {
 	}
 
 	@GetMapping(path = "/users/{userId}")
-	public User getAllUsers(@PathVariable Integer userId) {
-		return userResourceManager.getUser(userId);
+	public User getAllUsers(@PathVariable Integer userId) throws UserResourceException {
+		try {
+			return userResourceManager.getUser(userId);
+		} catch (UserResourceException e) {
+			throw e;
+		}
 	}
 
 }

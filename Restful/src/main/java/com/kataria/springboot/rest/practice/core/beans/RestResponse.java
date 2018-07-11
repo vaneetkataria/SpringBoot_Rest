@@ -39,7 +39,7 @@ public class RestResponse implements Serializable {
 	@JsonIgnore
 	public RestResponse setHttpStatus(HttpStatus httpStatus) {
 		init();
-		responseStatus.setHttpStatus(String.join(httpStatus.value() + "", "-", httpStatus.name()));
+		responseStatus.setHttpStatus(httpStatus.value() + " " + httpStatus.name());
 		return this;
 	}
 
