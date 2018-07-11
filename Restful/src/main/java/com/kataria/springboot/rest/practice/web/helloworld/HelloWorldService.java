@@ -1,10 +1,11 @@
-package com.kataria.springboot.rest.practice.helloworld;
+package com.kataria.springboot.rest.practice.web.helloworld;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kataria.springboot.rest.practice.helloworld.beans.HelloWorld;
+import com.kataria.springboot.rest.practice.web.helloworld.beans.HelloWorld;
+import com.kataria.springboot.rest.practice.web.helloworld.beans.HelloWorldWithoutGetterSetter;
 
 @RestController
 public class HelloWorldService {
@@ -32,6 +33,11 @@ public class HelloWorldService {
 	@GetMapping(path = "/Hello-world-Bean")
 	public HelloWorld helloWorldBean() {
 		return new HelloWorld("Hello World-Bean");
+	}
+
+	@GetMapping(path = "/Hello-world-Bean-WGS")
+	public HelloWorldWithoutGetterSetter helloWorldBeanWGS() {
+		return new HelloWorldWithoutGetterSetter("Hello World-Bean-WGS");
 	}
 
 	// Content application/json will only be served . If application/xml demanded

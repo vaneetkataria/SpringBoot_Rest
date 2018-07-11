@@ -1,6 +1,8 @@
-package com.kataria.springboot.rest.practice.user.beans;
+package com.kataria.springboot.rest.practice.manager.user.beans;
 
 import java.util.Date;
+
+import com.kataria.springboot.rest.practice.core.beans.RestResponse;
 
 public class User {
 
@@ -46,7 +48,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return String.format("User [id=%s, firstName=%s, dateOfBirth=%s]", id, firstName, dateOfBirth);
+		return String.format("User [id=%s, firstName=%s, dateOfBirth=%s, getResponseStatus()=%s]", id, firstName,
+				dateOfBirth, getResponseStatus());
 	}
 
 }

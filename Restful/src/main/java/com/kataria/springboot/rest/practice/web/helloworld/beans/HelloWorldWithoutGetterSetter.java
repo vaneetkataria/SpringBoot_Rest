@@ -1,8 +1,8 @@
-package com.kataria.springboot.rest.practice.helloworld.beans;
+package com.kataria.springboot.rest.practice.web.helloworld.beans;
 
 public class HelloWorldWithoutGetterSetter {
 
-	public String message;
+	private String message;
 
 	public HelloWorldWithoutGetterSetter(String message) {
 		super();

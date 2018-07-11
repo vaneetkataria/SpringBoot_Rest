@@ -1,4 +1,4 @@
-package com.kataria.springboot.rest.practice.helloworld.beans;
+package com.kataria.springboot.rest.practice.web.helloworld.beans;
 
 public class HelloWorld {
 
