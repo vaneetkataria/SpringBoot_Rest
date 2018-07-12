@@ -1,5 +1,8 @@
 package com.kataria.springboot.rest.practice.web.user;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +33,7 @@ public class UserResourceService {
 	}
 
 	@GetMapping(path = "/users/{userId}")
-	public ResponseEntity<User> getAllUsers(@PathVariable Integer userId) throws UserResourceException {
+	public ResponseEntity<User> getUser(@PathVariable Integer userId) throws UserResourceException {
 		try {
 			return userResourceAccessor.getUser(userId);
 		} catch (UserResourceException e) {
@@ -39,7 +42,7 @@ public class UserResourceService {
 	}
 
 	@PostMapping(path = "/users")
-	public ResponseEntity<User> addUser(@RequestBody User user) throws UserResourceException {
+	public ResponseEntity<User> addUser(@RequestBody @Valid User user) throws UserResourceException {
 		try {
 			return userResourceAccessor.addUser(user);
 		} catch (UserResourceException e) {

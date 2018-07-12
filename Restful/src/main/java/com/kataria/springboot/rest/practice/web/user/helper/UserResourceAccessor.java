@@ -25,7 +25,7 @@ public class UserResourceAccessor {
 			HttpStatus httpStatus = null;
 			switch (e.getMessage()) {
 			case UserResourceManager.NO_USERS_EXIST:
-				httpStatus = HttpStatus.NOT_FOUND;
+				httpStatus = HttpStatus.NO_CONTENT;
 				break;
 			default:
 				httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -45,10 +45,7 @@ public class UserResourceAccessor {
 			HttpStatus httpStatus = null;
 			switch (e.getMessage()) {
 			case UserResourceManager.NO_USER_EXIST:
-				httpStatus = HttpStatus.NOT_FOUND;
-				break;
-			case UserResourceManager.INVALID_INPUT_PARAMS:
-				httpStatus = HttpStatus.BAD_REQUEST;
+				httpStatus = HttpStatus.NO_CONTENT;
 				break;
 			default:
 				httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -64,15 +61,6 @@ public class UserResourceAccessor {
 			ResponseEntity<User> response = new ResponseEntity<>(createduser, HttpStatus.CREATED);
 			return response;
 		} catch (UserResourceException e) {
-			HttpStatus httpStatus = null;
-			switch (e.getMessage()) {
-			case UserResourceManager.INVALID_INPUT_PARAMS:
-				httpStatus = HttpStatus.BAD_REQUEST;
-				break;
-			default:
-				httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-			}
-			e.setHttpStatus(httpStatus);
 			throw e;
 		}
 	}
@@ -85,8 +73,8 @@ public class UserResourceAccessor {
 		} catch (UserResourceException e) {
 			HttpStatus httpStatus = null;
 			switch (e.getMessage()) {
-			case UserResourceManager.INVALID_INPUT_PARAMS:
-				httpStatus = HttpStatus.BAD_REQUEST;
+			case UserResourceManager.NO_USER_EXIST:
+				httpStatus = HttpStatus.FORBIDDEN;
 				break;
 			default:
 				httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;

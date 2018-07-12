@@ -2,12 +2,18 @@ package com.kataria.springboot.rest.practice.manager.user.beans;
 
 import java.util.Date;
 
-import com.kataria.springboot.rest.practice.core.beans.RestResponse;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.PositiveOrZero;
 
 public class User {
-
+	@PositiveOrZero(message = "User Id must be positive.")
 	private int id;
+	@NotBlank(message = "First name cannot be empty.")
 	private String firstName;
+	@NotNull(message = "Date of birth cannot be null.")
+	@Past(message = "Date of birth must be in Past.")
 	private Date dateOfBirth;
 
 	public User() {

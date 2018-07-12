@@ -38,7 +38,6 @@ public class UserResourceManager {
 
 	public User getUser(Integer userId) throws UserResourceException {
 		try {
-			Assert.isTrue(userId > 0, INVALID_INPUT_PARAMS);
 			Assert.isTrue(useraMap.containsKey(userId), NO_USER_EXIST);
 			return useraMap.get(userId);
 		} catch (Exception e) {
@@ -48,8 +47,6 @@ public class UserResourceManager {
 
 	public User addUser(User user) throws UserResourceException {
 		try {
-			Assert.hasLength(user.getFirstName(), "INVALID_INPUT_PARAMS");
-			Assert.isTrue(user.getDateOfBirth() != null, "INVALID_INPUT_PARAMS");
 			user.setId(getMaxId());
 			useraMap.put(user.getId(), user);
 			return user;
@@ -60,8 +57,7 @@ public class UserResourceManager {
 
 	public void deleteUser(Integer userId) throws UserResourceException {
 		try {
-			Assert.isTrue(userId != null, "INVALID_INPUT_PARAMS");
-			Assert.isTrue(useraMap.containsKey(userId), "INVALID_INPUT_PARAMS");
+			Assert.isTrue(useraMap.containsKey(userId), NO_USER_EXIST);
 			useraMap.remove(userId);
 		} catch (Exception e) {
 			throw new UserResourceException(e.getMessage(), e, e.getMessage());
