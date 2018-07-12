@@ -21,40 +21,26 @@ public class RestResponse implements Serializable {
 			responseStatus = new RestResponseStatus();
 	}
 
+	@JsonIgnore
+	public RestResponse setMessage(String responseMessage) {
+		init();
+		responseStatus.setMessage(responseMessage);
+		return this;
+	}
+
+	@JsonIgnore
+	public RestResponse setPath(String path) {
+		init();
+		responseStatus.setPath(path);
+		return this;
+	}
+
 	public RestResponseStatus getResponseStatus() {
 		return responseStatus;
 	}
 
 	public void setResponseStatus(RestResponseStatus responseStatus) {
 		this.responseStatus = responseStatus;
-	}
-
-	@JsonIgnore
-	public RestResponse setSuccess() {
-		init();
-		responseStatus.setStatus(CoreConstants.SUCCESS);
-		return this;
-	}
-
-	@JsonIgnore
-	public RestResponse setHttpStatus(HttpStatus httpStatus) {
-		init();
-		responseStatus.setHttpStatus(httpStatus.value() + " " + httpStatus.name());
-		return this;
-	}
-
-	@JsonIgnore
-	public RestResponse setResponseCode(String responseCode) {
-		init();
-		responseStatus.setResponseCode(responseCode);
-		return this;
-	}
-
-	@JsonIgnore
-	public RestResponse setResponseMessage(String responseMessage) {
-		init();
-		responseStatus.setResponseMessage(responseMessage);
-		return this;
 	}
 
 	@Override
@@ -64,10 +50,8 @@ public class RestResponse implements Serializable {
 
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private static class RestResponseStatus {
-		private String status;
-		private String httpStatus;
-		private String responseCode;
-		private String responseMessage;
+		private String message;
+		private String path;
 		private Date timeStamp;
 
 		public RestResponseStatus() {
@@ -75,46 +59,18 @@ public class RestResponse implements Serializable {
 			timeStamp = new Date();
 		}
 
-		public RestResponseStatus(String status, String httpStatus, String responseCode, String responseMessage,
-				Date timeStamp) {
+		public RestResponseStatus(String status, String message, Date timeStamp) {
 			super();
-			this.status = status;
-			this.httpStatus = httpStatus;
-			this.responseCode = responseCode;
-			this.responseMessage = responseMessage;
+			this.message = message;
 			this.timeStamp = timeStamp;
 		}
 
-		public String getStatus() {
-			return status;
+		public String getMessage() {
+			return message;
 		}
 
-		public void setStatus(String status) {
-			this.status = status;
-		}
-
-		public String getHttpStatus() {
-			return httpStatus;
-		}
-
-		public void setHttpStatus(String httpStatus) {
-			this.httpStatus = httpStatus;
-		}
-
-		public String getResponseCode() {
-			return responseCode;
-		}
-
-		public void setResponseCode(String responseCode) {
-			this.responseCode = responseCode;
-		}
-
-		public String getResponseMessage() {
-			return responseMessage;
-		}
-
-		public void setResponseMessage(String responseMessage) {
-			this.responseMessage = responseMessage;
+		public void setMessage(String message) {
+			this.message = message;
 		}
 
 		public Date getTimeStamp() {
@@ -125,11 +81,17 @@ public class RestResponse implements Serializable {
 			this.timeStamp = timeStamp;
 		}
 
+		public String getPath() {
+			return path;
+		}
+
+		public void setPath(String path) {
+			this.path = path;
+		}
+
 		@Override
 		public String toString() {
-			return String.format(
-					"RestResponseStatus [status=%s, httpStatus=%s, responseCode=%s, responseMessage=%s, timeStamp=%s]",
-					status, httpStatus, responseCode, responseMessage, timeStamp);
+			return String.format("RestResponseStatus [message=%s, path=%s, timeStamp=%s]", message, path, timeStamp);
 		}
 
 	}

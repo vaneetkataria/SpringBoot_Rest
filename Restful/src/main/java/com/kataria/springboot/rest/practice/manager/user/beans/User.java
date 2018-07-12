@@ -49,7 +49,7 @@ public class User {
 	@Override
 	public String toString() {
 		return String.format("User [id=%s, firstName=%s, dateOfBirth=%s, getResponseStatus()=%s]", id, firstName,
-				dateOfBirth, getResponseStatus());
+				dateOfBirth);
 	}
 
 }

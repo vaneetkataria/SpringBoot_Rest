@@ -12,6 +12,10 @@ public class UserList extends RestResponse {
 	private static final long serialVersionUID = 1L;
 	private List<User> users;
 
+	public UserList() {
+		super();
+	}
+
 	public UserList(List<User> users) {
 		super();
 		this.users = users;

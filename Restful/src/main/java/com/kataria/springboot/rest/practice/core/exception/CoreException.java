@@ -4,9 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public class CoreException extends Exception {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String responseCode;
 	private HttpStatus httpStatus;
@@ -35,6 +32,11 @@ public class CoreException extends Exception {
 		super(message, cause);
 		this.responseCode = responseCode;
 		this.httpStatus = httpStatus;
+	}
+
+	public CoreException(String message, Throwable cause, String responseCode) {
+		super(message, cause);
+		this.responseCode = responseCode;
 	}
 
 }

@@ -16,6 +16,10 @@ import com.kataria.springboot.rest.practice.manager.user.exception.UserResourceE
 @Component
 public class UserResourceManager {
 
+	public static final String NO_USERS_EXIST = "NO_USERS_EXIST";
+	public static final String NO_USER_EXIST = "NO_USER_EXIST";
+	public static final String INVALID_INPUT_PARAMS = "INVALID_INPUT_PARAMS";
+
 	private static Map<Integer, User> useraMap = new HashMap<>();
 	static {
 		useraMap.put(1, new User(1, "Vaneet", new Date()));
@@ -25,21 +29,52 @@ public class UserResourceManager {
 
 	public UserList getAllUsers() throws UserResourceException {
 		try {
-			Assert.isTrue(!useraMap.isEmpty(), "NO_USER_EXISTS");
-			UserList userList = new UserList(Collections.list(Collections.enumeration(useraMap.values())));
-			userList.setSuccess().setHttpStatus(HttpStatus.OK);
-			return userList;
+			Assert.isTrue(!useraMap.isEmpty(), NO_USERS_EXIST);
+			return new UserList(Collections.list(Collections.enumeration(useraMap.values())));
 		} catch (Exception e) {
-			throw new UserResourceException(e.getMessage(), e, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new UserResourceException(e.getMessage(), e, e.getMessage());
 		}
 	}
 
 	public User getUser(Integer userId) throws UserResourceException {
 		try {
-			Assert.isTrue(useraMap.containsKey(userId), "USER_DOES_NOT_EXIST");
+			Assert.isTrue(userId > 0, INVALID_INPUT_PARAMS);
+			Assert.isTrue(useraMap.containsKey(userId), NO_USER_EXIST);
 			return useraMap.get(userId);
 		} catch (Exception e) {
-			throw new UserResourceException(e.getMessage(), e, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new UserResourceException(e.getMessage(), e, e.getMessage());
 		}
+	}
+
+	public User addUser(User user) throws UserResourceException {
+		try {
+			Assert.hasLength(user.getFirstName(), "INVALID_INPUT_PARAMS");
+			Assert.isTrue(user.getDateOfBirth() != null, "INVALID_INPUT_PARAMS");
+			user.setId(getMaxId());
+			useraMap.put(user.getId(), user);
+			return user;
+		} catch (Exception e) {
+			throw new UserResourceException(e.getMessage(), e, e.getMessage());
+		}
+	}
+
+	public void deleteUser(Integer userId) throws UserResourceException {
+		try {
+			Assert.isTrue(userId != null, "INVALID_INPUT_PARAMS");
+			Assert.isTrue(useraMap.containsKey(userId), "INVALID_INPUT_PARAMS");
+			useraMap.remove(userId);
+		} catch (Exception e) {
+			throw new UserResourceException(e.getMessage(), e, e.getMessage());
+		}
+	}
+
+	private Integer getMaxId() {
+		int maxId = 0;
+		for (Integer i : useraMap.keySet()) {
+			if (i > maxId)
+				maxId = i;
+		}
+		return maxId + 1;
+
 	}
 }
