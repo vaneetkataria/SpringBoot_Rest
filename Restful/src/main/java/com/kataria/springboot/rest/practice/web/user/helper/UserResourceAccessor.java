@@ -19,6 +19,7 @@ public class UserResourceAccessor {
 	public ResponseEntity<UserList> getAllUsers() throws UserResourceException {
 		try {
 			UserList userList = userResourceManager.getAllUsers();
+			userList.setSuccess();
 			ResponseEntity<UserList> response = new ResponseEntity<>(userList, HttpStatus.FOUND);
 			return response;
 		} catch (UserResourceException e) {
@@ -39,8 +40,12 @@ public class UserResourceAccessor {
 	public ResponseEntity<User> getUser(Integer userId) throws UserResourceException {
 		try {
 			User user = userResourceManager.getUser(userId);
-			ResponseEntity<User> response = new ResponseEntity<>(user, HttpStatus.FOUND);
+			User responseUser = (User) user.clone();
+			responseUser.setSuccess();
+			ResponseEntity<User> response = new ResponseEntity<>(responseUser, HttpStatus.FOUND);
 			return response;
+		} catch (CloneNotSupportedException e) {
+			throw new UserResourceException(e.getMessage(), e);
 		} catch (UserResourceException e) {
 			HttpStatus httpStatus = null;
 			switch (e.getMessage()) {
@@ -58,8 +63,12 @@ public class UserResourceAccessor {
 	public ResponseEntity<User> addUser(User user) throws UserResourceException {
 		try {
 			User createduser = userResourceManager.addUser(user);
-			ResponseEntity<User> response = new ResponseEntity<>(createduser, HttpStatus.CREATED);
+			User responseUser = (User) createduser.clone();
+			responseUser.setSuccess();
+			ResponseEntity<User> response = new ResponseEntity<>(responseUser, HttpStatus.CREATED);
 			return response;
+		} catch (CloneNotSupportedException e) {
+			throw new UserResourceException(e.getMessage(), e);
 		} catch (UserResourceException e) {
 			throw e;
 		}

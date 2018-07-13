@@ -12,12 +12,12 @@ public class UserResourceException extends CoreException {
 		super();
 	}
 
-	public UserResourceException(String message, Throwable cause, String responseCode, HttpStatus httpStatus) {
-		super(message, cause, responseCode, httpStatus);
+	public UserResourceException(String message, Throwable cause, HttpStatus httpStatus) {
+		super(message, cause, httpStatus);
 	}
-	
-	public UserResourceException(String message, Throwable cause, String responseCode) {
-		super(message, cause, responseCode);
+
+	public UserResourceException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
 }

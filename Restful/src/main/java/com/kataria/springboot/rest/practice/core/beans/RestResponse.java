@@ -43,6 +43,11 @@ public class RestResponse implements Serializable {
 		this.responseStatus = responseStatus;
 	}
 
+	public void setSuccess() {
+		responseStatus = new RestResponseStatus();
+		responseStatus.setMessage("Successful");
+	}
+
 	@Override
 	public String toString() {
 		return String.format("RestResponse [responseStatus=%s]", responseStatus);

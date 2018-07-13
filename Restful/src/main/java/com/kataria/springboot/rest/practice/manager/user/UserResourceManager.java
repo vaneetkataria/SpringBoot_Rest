@@ -32,7 +32,7 @@ public class UserResourceManager {
 			Assert.isTrue(!useraMap.isEmpty(), NO_USERS_EXIST);
 			return new UserList(Collections.list(Collections.enumeration(useraMap.values())));
 		} catch (Exception e) {
-			throw new UserResourceException(e.getMessage(), e, e.getMessage());
+			throw new UserResourceException(e.getMessage(), e);
 		}
 	}
 
@@ -41,7 +41,7 @@ public class UserResourceManager {
 			Assert.isTrue(useraMap.containsKey(userId), NO_USER_EXIST);
 			return useraMap.get(userId);
 		} catch (Exception e) {
-			throw new UserResourceException(e.getMessage(), e, e.getMessage());
+			throw new UserResourceException(e.getMessage(), e);
 		}
 	}
 
@@ -51,7 +51,7 @@ public class UserResourceManager {
 			useraMap.put(user.getId(), user);
 			return user;
 		} catch (Exception e) {
-			throw new UserResourceException(e.getMessage(), e, e.getMessage());
+			throw new UserResourceException(e.getMessage(), e);
 		}
 	}
 
@@ -60,7 +60,7 @@ public class UserResourceManager {
 			Assert.isTrue(useraMap.containsKey(userId), NO_USER_EXIST);
 			useraMap.remove(userId);
 		} catch (Exception e) {
-			throw new UserResourceException(e.getMessage(), e, e.getMessage());
+			throw new UserResourceException(e.getMessage(), e);
 		}
 	}
 
