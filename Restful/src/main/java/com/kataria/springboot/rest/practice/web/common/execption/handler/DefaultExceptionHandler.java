@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.kataria.springboot.rest.practice.core.beans.RestResponse;
 import com.kataria.springboot.rest.practice.core.exception.CoreException;
 
-@ControllerAdvice()
+@ControllerAdvice
 @RestController
 public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -38,7 +38,8 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 	// @RequestParam and @PathVariables are not validated with javax.validations
 	// @Valid annotation and other validations .
 	// But annotating controller with @Validated of Spring annotation will make this
-	// to work and ConstraintViolationException will be thrown
+	// to work and ConstraintViolationException will be thrown. Which can be
+	// gracefully handled here.
 	@ExceptionHandler(ConstraintViolationException.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	public RestResponse handleCoreException(ConstraintViolationException e, HttpServletRequest request) {
