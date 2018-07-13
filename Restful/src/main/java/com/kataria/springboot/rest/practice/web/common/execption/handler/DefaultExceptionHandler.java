@@ -1,6 +1,7 @@
 package com.kataria.springboot.rest.practice.web.common.execption.handler;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -31,6 +33,20 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 		ResponseEntity<RestResponse> finalResponse = new ResponseEntity<>(restResponse,
 				null != e.getHttpStatus() ? e.getHttpStatus() : HttpStatus.INTERNAL_SERVER_ERROR);
 		return finalResponse;
+	}
+
+	// @RequestParam and @PathVariables are not validated with javax.validations
+	// @Valid annotation and other validations .
+	// But annotating controller with @Validated of Spring annotation will make this
+	// to work and ConstraintViolationException will be thrown
+	@ExceptionHandler(ConstraintViolationException.class)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	public RestResponse handleCoreException(ConstraintViolationException e, HttpServletRequest request) {
+		RestResponse restResponse = new RestResponse();
+		restResponse.setMessage(
+				StringUtils.hasLength(e.getMessage()) ? e.getMessage() : HttpStatus.INTERNAL_SERVER_ERROR.name())
+				.setPath(request.getRequestURI());
+		return restResponse;
 	}
 
 	// Any exception handled by ResponseEntityExceptionHandler will now be dealt

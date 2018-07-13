@@ -5,6 +5,7 @@ import javax.validation.constraints.Positive;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import com.kataria.springboot.rest.practice.manager.user.exception.UserResourceE
 import com.kataria.springboot.rest.practice.web.user.helper.UserResourceAccessor;
 
 @RestController
+@Validated
 public class UserResourceService {
 
 	@Autowired
@@ -33,7 +35,8 @@ public class UserResourceService {
 	}
 
 	@GetMapping(path = "/users/{userId}")
-	public ResponseEntity<User> getUser(@PathVariable Integer userId) throws UserResourceException {
+	public ResponseEntity<User> getUser(@PathVariable @Positive(message = "UserID must be positive.") Integer userId)
+			throws UserResourceException {
 		try {
 			return userResourceAccessor.getUser(userId);
 		} catch (UserResourceException e) {
@@ -51,7 +54,8 @@ public class UserResourceService {
 	}
 
 	@DeleteMapping(path = "/users/{userId}")
-	public ResponseEntity<User> deleteUser(@PathVariable Integer userId) throws UserResourceException {
+	public ResponseEntity<User> deleteUser(@PathVariable @Positive(message = "UserID must be positive.") Integer userId)
+			throws UserResourceException {
 		try {
 			return userResourceAccessor.deleteUser(userId);
 		} catch (UserResourceException e) {
