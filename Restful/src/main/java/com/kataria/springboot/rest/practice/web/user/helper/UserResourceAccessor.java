@@ -1,9 +1,12 @@
 package com.kataria.springboot.rest.practice.web.user.helper;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.kataria.springboot.rest.practice.manager.user.UserResourceManager;
 import com.kataria.springboot.rest.practice.manager.user.beans.User;
@@ -20,8 +23,7 @@ public class UserResourceAccessor {
 		try {
 			UserList userList = userResourceManager.getAllUsers();
 			userList.setSuccess();
-			ResponseEntity<UserList> response = new ResponseEntity<>(userList, HttpStatus.FOUND);
-			return response;
+			return ResponseEntity.status(HttpStatus.FOUND).body(userList);
 		} catch (UserResourceException e) {
 			HttpStatus httpStatus = null;
 			switch (e.getMessage()) {
@@ -42,8 +44,7 @@ public class UserResourceAccessor {
 			User user = userResourceManager.getUser(userId);
 			User responseUser = (User) user.clone();
 			responseUser.setSuccess();
-			ResponseEntity<User> response = new ResponseEntity<>(responseUser, HttpStatus.FOUND);
-			return response;
+			return ResponseEntity.status(HttpStatus.FOUND).body(responseUser);
 		} catch (CloneNotSupportedException e) {
 			throw new UserResourceException(e.getMessage(), e);
 		} catch (UserResourceException e) {
@@ -63,10 +64,11 @@ public class UserResourceAccessor {
 	public ResponseEntity<User> addUser(User user) throws UserResourceException {
 		try {
 			User createduser = userResourceManager.addUser(user);
+			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+					.buildAndExpand(createduser.getId()).toUri();
 			User responseUser = (User) createduser.clone();
 			responseUser.setSuccess();
-			ResponseEntity<User> response = new ResponseEntity<>(responseUser, HttpStatus.CREATED);
-			return response;
+			return ResponseEntity.created(location).body(responseUser);
 		} catch (CloneNotSupportedException e) {
 			throw new UserResourceException(e.getMessage(), e);
 		} catch (UserResourceException e) {
@@ -77,8 +79,7 @@ public class UserResourceAccessor {
 	public ResponseEntity<User> deleteUser(Integer userId) throws UserResourceException {
 		try {
 			userResourceManager.deleteUser(userId);
-			ResponseEntity<User> response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			return response;
+			return ResponseEntity.noContent().build();
 		} catch (UserResourceException e) {
 			HttpStatus httpStatus = null;
 			switch (e.getMessage()) {
