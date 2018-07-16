@@ -30,9 +30,8 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 		restResponse.setMessage(
 				StringUtils.hasLength(e.getMessage()) ? e.getMessage() : HttpStatus.INTERNAL_SERVER_ERROR.name())
 				.setPath(request.getRequestURI());
-		ResponseEntity<RestResponse> finalResponse = new ResponseEntity<>(restResponse,
-				null != e.getHttpStatus() ? e.getHttpStatus() : HttpStatus.INTERNAL_SERVER_ERROR);
-		return finalResponse;
+		return ResponseEntity.status(null != e.getHttpStatus() ? e.getHttpStatus() : HttpStatus.INTERNAL_SERVER_ERROR)
+				.body(restResponse);
 	}
 
 	// @RequestParam and @PathVariables are not validated with javax.validations
@@ -44,8 +43,7 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	public RestResponse handleCoreException(ConstraintViolationException e, HttpServletRequest request) {
 		RestResponse restResponse = new RestResponse();
-		restResponse.setMessage(
-				StringUtils.hasLength(e.getMessage()) ? e.getMessage() : HttpStatus.INTERNAL_SERVER_ERROR.name())
+		restResponse.setMessage(StringUtils.hasLength(e.getMessage()) ? e.getMessage() : HttpStatus.BAD_REQUEST.name())
 				.setPath(request.getRequestURI());
 		return restResponse;
 	}
@@ -57,7 +55,7 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpStatus status, WebRequest request) {
 		RestResponse restResponse = new RestResponse();
 		restResponse.setMessage(ex.getMessage()).setPath(request.getDescription(false));
-		return new ResponseEntity<>(restResponse, headers, status);
+		return ResponseEntity.status(status).headers(headers).body(restResponse);
 	}
 
 	// Overriding this method specially as separate handling for extracting text
@@ -69,8 +67,7 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 		String message = extractMessage(e.getBindingResult(), e);
 		restResponse.setMessage(StringUtils.hasLength(message) ? message : "Invalid Input Params.")
 				.setPath(request.getDescription(false));
-		ResponseEntity<Object> responseEntity = new ResponseEntity<>(restResponse, HttpStatus.BAD_REQUEST);
-		return responseEntity;
+		return ResponseEntity.badRequest().body(restResponse);
 	}
 
 	private String extractMessage(BindingResult bindingResult, Exception e) {
