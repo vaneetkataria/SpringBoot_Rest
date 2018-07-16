@@ -3,6 +3,7 @@ package com.kataria.springboot.rest.practice.manager.user;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -74,4 +75,23 @@ public class UserResourceManager {
 		return maxId + 1;
 
 	}
+
+	public List<User.Address> getAllCorresspondingAddress(Integer userId) throws UserResourceException {
+		try {
+			Assert.isTrue(useraMap.containsKey(userId), NO_USER_EXIST);
+			return useraMap.get(userId).getCorrespondingAddresses();
+		} catch (Exception e) {
+			throw new UserResourceException(e.getMessage(), e);
+		}
+	}
+
+	public List<String> getAllJuniors(Integer userId) throws UserResourceException {
+		try {
+			Assert.isTrue(useraMap.containsKey(userId), NO_USER_EXIST);
+			return useraMap.get(userId).getJuniors();
+		} catch (Exception e) {
+			throw new UserResourceException(e.getMessage(), e);
+		}
+	}
+
 }

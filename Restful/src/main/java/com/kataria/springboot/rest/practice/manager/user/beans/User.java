@@ -98,7 +98,7 @@ public class User extends RestResponse implements Cloneable {
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
-	private static class Address {
+	public static class Address {
 		@NotBlank(message = "Address cannot be null or blank.")
 		@Size(min = 10, max = 100, message = "Address must be given in 10 to 100 characters.")
 		private String address;
