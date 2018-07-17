@@ -11,7 +11,7 @@ public class MessageResourceConfig {
 	@Bean
 	public MessageSource messageSource() {
 		ResourceBundleMessageSource messageSesource = new ResourceBundleMessageSource();
-		messageSesource.setBasename("messages");
+		messageSesource.setBasename("i18n/messages");
 		messageSesource.setFallbackToSystemLocale(false);
 		return messageSesource;
 	}
