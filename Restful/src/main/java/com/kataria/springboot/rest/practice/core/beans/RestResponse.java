@@ -3,11 +3,8 @@ package com.kataria.springboot.rest.practice.core.beans;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.springframework.http.HttpStatus;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.kataria.springboot.rest.practice.core.constants.CoreConstants;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RestResponse implements Serializable {
