@@ -2,17 +2,27 @@ package com.kataria.springboot.rest.practice.web.helloworld;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kataria.springboot.rest.practice.web.helloworld.beans.HelloWorld;
 import com.kataria.springboot.rest.practice.web.helloworld.beans.HelloWorldWithoutGetterSetter;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+@Api(tags = { "Hello World Service" })
 @RestController
 public class HelloWorldService {
 
 	@GetMapping(path = "/Hello-world")
-	public String helloWorld() {
-		return "Hello World";
+	public String helloWold(
+			@ApiParam(value = "Paramter to be printed after hello world", required = true, example = "aaaa",
+					defaultValue = "ABC") @RequestParam(required = true, name = "msg") String msg,
+			@RequestHeader(required = false, name = "msgHeader", defaultValue = "from Header") String msgHeader) {
+		return "Hello World " + msg + " " + msgHeader;
 	}
 
 	// Response will be contentType : application/json;charset=UTF-8 only.

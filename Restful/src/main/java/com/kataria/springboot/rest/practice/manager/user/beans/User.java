@@ -14,20 +14,45 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.kataria.springboot.rest.practice.core.beans.RestResponse;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@ApiModel(description = "This Model represents the JSON data to be sent in request body for adding one user .")
 public class User extends RestResponse implements Cloneable {
+
+	@ApiModelProperty(value = "User ID. Not needed while adding a user.", required = false, position = 1,
+			allowableValues = "range[1, infinity]")
 	@PositiveOrZero(message = "User Id must be positive.")
 	private int id;
+
+	@ApiModelProperty(value = "User's First Name. It Cannot be null or empty .", required = true, position = 2,
+			example = "Vaneet")
 	@NotBlank(message = "First name cannot be empty.")
 	private String firstName;
+
+	@ApiModelProperty(
+			value = "User's Date of birth. It Cannot be null , empty or a time instance in present or future . Format should be yyyy-mm-ddTHH:mm:ss.sssZ .",
+			required = true, position = 3)
 	@NotNull(message = "Date of birth cannot be null.")
 	@Past(message = "Date of birth must be in Past.")
 	private Date dateOfBirth;
+
+	@ApiModelProperty(value = "User's Address . It Cannot be null . It should be a valid address as specified .",
+			required = true, position = 4)
 	@NotNull(message = "Address cannot be null.")
 	@Valid
 	private Address address;
-	@NotEmpty(message = "Atleat one Junior is required.")
+
+	@ApiModelProperty(
+			value = "User's Juniors . It Cannot be a null or empty list. Elements in the list cannot be null or empty . ",
+			required = true, position = 5)
+	@NotEmpty(message = "Atleast one Junior is required.")
 	private List<@NotBlank(message = "Junior Name cannot be null or empty.") String> juniors;
+
+	@ApiModelProperty(
+			value = "User's Corressponding addresses . It Cannot be a null or empty list. All List elements must be a valid address.",
+			required = true, position = 6)
 	@NotEmpty(message = "Atleast one corressponding address is required.")
 	private List<@NotNull(message = "Corresponding address cannot be null.") @Valid Address> correspondingAddresses;
 
@@ -97,8 +122,13 @@ public class User extends RestResponse implements Cloneable {
 				dateOfBirth);
 	}
 
+	@ApiModel(description = "This represents user's address .")
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	public static class Address {
+
+		@ApiModelProperty(
+				value = "This feild cannot be null or empty . It should be a String having 10 to 100 characters.",
+				required = true)
 		@NotBlank(message = "Address cannot be null or blank.")
 		@Size(min = 10, max = 100, message = "Address must be given in 10 to 100 characters.")
 		private String address;
