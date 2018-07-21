@@ -42,8 +42,8 @@ public class UserResourceService {
 	@ApiOperation(value = "API to fetch all Users.", notes = "This API fetches all existing users. ",
 			produces = "application/json , application/xml")
 	@ApiResponses(value = {
-			@ApiResponse(code = 302, response = UserList.class, message = "If atleast one user is found."),
-			@ApiResponse(code = 204, response = void.class,
+			@ApiResponse(code = 200, response = UserList.class, message = "If atleast one user is found."),
+			@ApiResponse(code = 404, response = void.class,
 					message = "If no user found . Response body will be empty."),
 			@ApiResponse(code = 500, response = RestResponse.class, message = "In case of some server side error.") })
 	@GetMapping(path = "/users")
@@ -58,8 +58,8 @@ public class UserResourceService {
 	@ApiOperation(value = "API to fetch a Single User.",
 			notes = "This API fetches single user with userID as a path variable in API end point. It returns HTTP status codes as described below in response section . In some other failure cases it will return standard HTTP codes. ",
 			produces = "application/json , application/xml", code = 302)
-	@ApiResponses(value = { @ApiResponse(code = 302, response = User.class, message = "If atleast one user is found."),
-			@ApiResponse(code = 204, response = void.class,
+	@ApiResponses(value = { @ApiResponse(code = 200, response = User.class, message = "If user is found."),
+			@ApiResponse(code = 404, response = void.class,
 					message = "If no user found . Response body will be empty."),
 			@ApiResponse(code = 500, response = RestResponse.class, message = "In case of some server side error.") })
 
@@ -79,9 +79,9 @@ public class UserResourceService {
 			notes = "This API provides corressponding address of the user.",
 			produces = "application/json , application/xml", code = 302)
 	@ApiResponses({
-			@ApiResponse(code = 302, message = "If Address exists for user", responseContainer = "List",
+			@ApiResponse(code = 200, message = "If Address exists for user", responseContainer = "List",
 					response = AddressResource.class),
-			@ApiResponse(code = 403, message = "If User or Address does not exist.", response = void.class),
+			@ApiResponse(code = 404, message = "If User or Address does not exist.", response = void.class),
 			@ApiResponse(code = 500, message = "In case of some internal server error", response = void.class) })
 
 	@GetMapping(path = "/users/{userId}/corrAddresses")
@@ -124,7 +124,7 @@ public class UserResourceService {
 			@ApiResponse(code = 500, response = RestResponse.class, message = "In case of some server side error."),
 			@ApiResponse(code = 400, response = RestResponse.class,
 					message = "In some issue in request parameters happen."),
-			@ApiResponse(code = 403, response = RestResponse.class, message = "In user does not exists.") })
+			@ApiResponse(code = 404, response = RestResponse.class, message = "In user does not exists.") })
 
 	@DeleteMapping(path = "/users/{userId}")
 	public ResponseEntity<Resource<User>> deleteUser(

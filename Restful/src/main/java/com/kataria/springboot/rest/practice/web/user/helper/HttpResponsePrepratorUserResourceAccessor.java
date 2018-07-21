@@ -24,12 +24,12 @@ public class HttpResponsePrepratorUserResourceAccessor {
 	public ResponseEntity<Resource<UserList>> getAllUsers() throws UserResourceException {
 		try {
 			Resource<UserList> userList = userResourceManager.getAllUsers();
-			return ResponseEntity.status(HttpStatus.FOUND).body(userList);
+			return ResponseEntity.ok().body(userList);
 		} catch (UserResourceException e) {
 			HttpStatus httpStatus = null;
 			switch (e.getMessage()) {
 			case UserResourceManager.NO_USERS_EXIST:
-				httpStatus = HttpStatus.NO_CONTENT;
+				httpStatus = HttpStatus.NOT_FOUND;
 				break;
 			default:
 				httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -43,12 +43,12 @@ public class HttpResponsePrepratorUserResourceAccessor {
 	public ResponseEntity<Resource<User>> getUser(Integer userId) throws UserResourceException {
 		try {
 			Resource<User> userResource = userResourceManager.getUser(userId);
-			return ResponseEntity.status(HttpStatus.FOUND).body(userResource);
+			return ResponseEntity.ok().body(userResource);
 		} catch (UserResourceException e) {
 			HttpStatus httpStatus = null;
 			switch (e.getMessage()) {
 			case UserResourceManager.NO_USER_EXIST:
-				httpStatus = HttpStatus.NO_CONTENT;
+				httpStatus = HttpStatus.NOT_FOUND;
 				break;
 			default:
 				httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -71,12 +71,12 @@ public class HttpResponsePrepratorUserResourceAccessor {
 	public ResponseEntity<Resource<User>> deleteUser(Integer userId) throws UserResourceException {
 		try {
 			Resource<User> userResource = userResourceManager.deleteUser(userId);
-			return ResponseEntity.status(HttpStatus.OK).body(userResource);
+			return ResponseEntity.ok().body(userResource);
 		} catch (UserResourceException e) {
 			HttpStatus httpStatus = null;
 			switch (e.getMessage()) {
 			case UserResourceManager.NO_USER_EXIST:
-				httpStatus = HttpStatus.FORBIDDEN;
+				httpStatus = HttpStatus.NOT_FOUND;
 				break;
 			default:
 				httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -91,12 +91,12 @@ public class HttpResponsePrepratorUserResourceAccessor {
 			throws UserResourceException {
 		try {
 			List<AddressResource> addressResources = userResourceManager.getAllCorresspondingAddress(userId);
-			return ResponseEntity.status(HttpStatus.FOUND).body(addressResources);
+			return ResponseEntity.ok().body(addressResources);
 		} catch (UserResourceException e) {
 			HttpStatus httpStatus = null;
 			switch (e.getMessage()) {
 			case UserResourceManager.NO_USER_EXIST:
-				httpStatus = HttpStatus.FORBIDDEN;
+				httpStatus = HttpStatus.NOT_FOUND;
 				break;
 			default:
 				httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
